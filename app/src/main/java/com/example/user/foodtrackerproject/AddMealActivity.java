@@ -15,12 +15,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.text.format.DateFormat;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +36,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
     TextView show_date_time;
     CheckBox breakfastCheckbox, lunchCheckbox, dinnerCheckbox, snackCheckbox, beverageCheckbox;
     DatePickerDialog datePicker;
+    TimePickerDialog timePicker;
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
 
@@ -63,10 +64,15 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         month = cal.get(Calendar.MONTH);
         day = cal.get(Calendar.DAY_OF_MONTH);
         datePicker = new DatePickerDialog(AddMealActivity.this, AddMealActivity.this, year, month, day);
+        timePicker = new TimePickerDialog(AddMealActivity.this, AddMealActivity.this, hour, minute, DateFormat.is24HourFormat(this));
 
         date_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                day = cal.get(Calendar.DAY_OF_MONTH);
                 AddMealActivity.this.datePicker.show();
             }
         });
@@ -78,7 +84,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
 
                 ArrayList<MealTime> selectedMealTimes = AddMealActivity.this.getSelectedMealTimes();
 
-                Date date = AddMealActivity.this.getSelectedDateTime();
+                Date date = AddMealActivity.this.getSelectedDate();
 
                 EatFood eatFoodEvent = new EatFood();
                 eatFoodEvent.setFood(new Food(selectedMealName, 0 ,0,0));
@@ -88,12 +94,47 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         });
     }
 
-    private Date getSelectedDateTime() {
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        yearFinal = i;
+        monthFinal = i1 + 1;
+        dayFinal = i2;
+
+        Calendar cal = Calendar.getInstance();
+        hour = cal.get(Calendar.HOUR_OF_DAY);
+        minute = cal.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(AddMealActivity.this, AddMealActivity.this, hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+        hourFinal = i;
+        minuteFinal = i1;
+
+        show_date_time.setText(dayFinal + "/" + monthFinal + "/" + yearFinal + " " + hourFinal + ":" + minuteFinal);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_meal) {
+            Intent intent = new Intent(this, AddMealActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private Date getSelectedDate() {
         return new Date(this.datePicker.getDatePicker().getYear(),
                 this.datePicker.getDatePicker().getMonth(),
-                this.datePicker.getDatePicker().getDayOfMonth(),
-                0,
-                0);
+                this.datePicker.getDatePicker().getDayOfMonth());
     }
 
     private ArrayList<MealTime> getSelectedMealTimes() {
@@ -123,16 +164,6 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
@@ -142,26 +173,3 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
 
     }
 }
-
-////    -------------------Date and time
-//    @Override
-//    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-//        yearFinal = i;
-//        monthFinal = i1 + 1;
-//        dayFinal = i2;
-//
-//        Calendar cal = Calendar.getInstance();
-//        hour = cal.get(Calendar.HOUR_OF_DAY);
-//        minute = cal.get(Calendar.MINUTE);
-//
-//        TimePickerDialog timePickerDialog = new TimePickerDialog(AddMealActivity.this, AddMealActivity.this, hour, minute, DateFormat.is24HourFormat(this));
-//        timePickerDialog.show();
-//    }
-//
-//    @Override
-//    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-//        hourFinal = i;
-//        minuteFinal = i1;
-//
-//        show_date_time.setText(dayFinal + "/" + monthFinal + "/" + yearFinal + " " + hourFinal + ":" + minuteFinal);
-//    }
