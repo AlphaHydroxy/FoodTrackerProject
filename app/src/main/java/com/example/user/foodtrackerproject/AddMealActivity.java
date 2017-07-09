@@ -63,6 +63,8 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
         day = cal.get(Calendar.DAY_OF_MONTH);
+        Time time = Time.getInstance();
+
         datePicker = new DatePickerDialog(AddMealActivity.this, AddMealActivity.this, year, month, day);
         timePicker = new TimePickerDialog(AddMealActivity.this, AddMealActivity.this, hour, minute, DateFormat.is24HourFormat(this));
 
@@ -85,7 +87,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
                 ArrayList<MealTime> selectedMealTimes = AddMealActivity.this.getSelectedMealTimes();
 
                 Date date = AddMealActivity.this.getSelectedDate();
-
+                Date time = AddMealActivity.this.getSelectedTime();
                 EatFood eatFoodEvent = new EatFood();
                 eatFoodEvent.setFood(new Food(selectedMealName, 0 ,0,0));
                 eatFoodEvent.setMealTime(selectedMealTimes.get(0));
@@ -135,6 +137,11 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         return new Date(this.datePicker.getDatePicker().getYear(),
                 this.datePicker.getDatePicker().getMonth(),
                 this.datePicker.getDatePicker().getDayOfMonth());
+    }
+
+    private Date getSelectedTime() {
+        return new Time(this.timePicker.getHour();
+                this.timePicker.getMinute();
     }
 
     private ArrayList<MealTime> getSelectedMealTimes() {
