@@ -12,20 +12,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText addedFood;
     ListView show;
+    TextView show_food_name, show_food_date, show_food_type, show_beverage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addedFood = (EditText)findViewById(R.id.foodinput);
         show = (ListView)findViewById(R.id.launcherlist);
+        show_food_name = (TextView)findViewById(R.id.show_food_name);
+        show_food_date = (TextView)findViewById(R.id.show_food_date);
+        show_food_type = (TextView)findViewById(R.id.show_food_type);
+        show_beverage = (TextView)findViewById(R.id.show_beverage);
     }
 
     @Override

@@ -1,12 +1,10 @@
 package com.example.user.foodtrackerproject;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,10 +21,10 @@ import java.util.Date;
 public class AddMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener{
 
     EditText foodNameEditor;
-    ArrayList<String> inputArray = new ArrayList<String>();
+    ArrayList<MealTime> foodInputArray = new ArrayList<>();
 
     Button date_time;
-    TextView show_date_time;
+    TextView show_date;
 
     RadioButton radio_breakfast, radio_lunch, radio_dinner, radio_snack, radio_beverage;
     DatePickerDialog datePicker;
@@ -45,14 +42,14 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         save = (Button) findViewById(R.id.save_btn);
 
         foodNameEditor = (EditText) findViewById(R.id.foodinput);
-        show_date_time = (TextView) findViewById(R.id.show_date_time);
+        show_date = (TextView) findViewById(R.id.show_date_time);
         date_time = (Button) findViewById(R.id.date_time_picker);
 
         radio_breakfast = (RadioButton)findViewById(R.id.radio_breakfast);
         radio_lunch = (RadioButton)findViewById(R.id.radio_lunch);
         radio_dinner = (RadioButton)findViewById(R.id.radio_dinner);
         radio_snack = (RadioButton)findViewById(R.id.radio_snack);
-        radio_beverage = (RadioButton)findViewById(R.id.radio_snack);
+        radio_beverage = (RadioButton)findViewById(R.id.radio_beverage);
 
         Calendar cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
@@ -79,23 +76,14 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
 
                 ArrayList<MealTime> selectedMealTimes = AddMealActivity.this.getSelectedMealTimes();
 
-                Date date = AddMealActivity.this.getSelectedDate();
                 EatFood eatFoodEvent = new EatFood();
                 eatFoodEvent.setFood(new Food(selectedMealName, 0 ,0,0));
+                foodInputArray.add(new MealTime(getSelectedMeal()));
+                foodInputArray.add(new MealTime(onDateSet(datePicker, i, i1, i2)));
                 eatFoodEvent.setMealTime(selectedMealTimes.get(0));
                 eatFoodEvent.setUser(new User("Jia", "Female", 56));
             }
         });
-    }
-
-    public boolean ifNoInput(EditText editText){
-        if(foodNameEditor == null){
-            editText.setError(editText.getHint()+"required field");
-            return false;
-        } else {
-            editText.setError(null);
-            return true;
-        }
     }
 
     @Override
@@ -103,9 +91,8 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         yearFinal = i;
         monthFinal = i1 + 1;
         dayFinal = i2;
-
-        Calendar cal = Calendar.getInstance();
-        show_date_time.setText(dayFinal + "/" + monthFinal + "/" + yearFinal);
+        show_date.setText(dayFinal + "/" + monthFinal + "/" + yearFinal);
+        show_date.toString();
     }
 
     @Override
@@ -114,40 +101,25 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         menuInflater.inflate(R.menu.main, menu);
         return true;
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.add_meal) {
-            Intent intent = new Intent(this, AddMealActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private Date getSelectedDate() {
-        return new Date(this.datePicker.getDatePicker().getYear(),
-                this.datePicker.getDatePicker().getMonth(),
-                this.datePicker.getDatePicker().getDayOfMonth());
-    }
 
     private ArrayList<MealTime> getSelectedMealTimes() {
-        ArrayList<MealTime> selectedMealTimes = new ArrayList<MealTime>();
 
         if (radio_breakfast.isChecked()) {
-            selectedMealTimes.add(new MealTime("Breakfast"));
+            foodInputArray.add(new MealTime("Breakfast"));
         }
         if (radio_lunch.isChecked()) {
-            selectedMealTimes.add(new MealTime("Lunch"));
+            foodInputArray.add(new MealTime("Lunch"));
         }
         if (radio_dinner.isChecked()) {
-            selectedMealTimes.add(new MealTime("Dinner"));
+            foodInputArray.add(new MealTime("Dinner"));
         }
         if (radio_snack.isChecked()) {
-            selectedMealTimes.add(new MealTime("Snack"));
+            foodInputArray.add(new MealTime("Snack"));
         }
         if (radio_beverage.isChecked()) {
-            selectedMealTimes.add(new MealTime("Beverage"));
+            foodInputArray.add(new MealTime("Beverage"));
         }
-        return selectedMealTimes;
+        return foodInputArray;
     }
 
     private String getSelectedMeal() {
@@ -164,3 +136,28 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
 
     }
 }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.add_meal) {
+//            Intent intent = new Intent(this, AddMealActivity.class);
+//            startActivity(intent);
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+//    private Date getSelectedDate() {
+//        return new Date(this.datePicker.getDatePicker().getYear(),
+//                this.datePicker.getDatePicker().getMonth(),
+//                this.datePicker.getDatePicker().getDayOfMonth());
+//    }
+
+//    public boolean ifNoInput(EditText editText){
+//        if(foodNameEditor == null){
+//            editText.setError(editText.getHint()+"required field");
+//            return false;
+//        } else {
+//            editText.setError(null);
+//            return true;
+//        }
+//    }
