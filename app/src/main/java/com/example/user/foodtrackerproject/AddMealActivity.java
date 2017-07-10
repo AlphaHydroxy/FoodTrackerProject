@@ -1,10 +1,12 @@
 package com.example.user.foodtrackerproject;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,39 +20,34 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener{
+public class AddMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     EditText foodNameEditor;
-    ArrayList<MealTime> foodInputArray = new ArrayList<>();
-
+    ArrayList<EatFood> alltheEatenFood;
     Button date_time;
     TextView show_date;
-
     RadioButton radio_breakfast, radio_lunch, radio_dinner, radio_snack, radio_beverage;
     DatePickerDialog datePicker;
     int day, month, year;
     int dayFinal, monthFinal, yearFinal;
-
-    ArrayAdapter adapter;
-
     Button save;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EatFood eatFood = new EatFood();
+        alltheEatenFood = new ArrayList<EatFood>();
         setContentView(R.layout.activity_add_meal);
         save = (Button) findViewById(R.id.save_btn);
-
         foodNameEditor = (EditText) findViewById(R.id.foodinput);
         show_date = (TextView) findViewById(R.id.show_date_time);
         date_time = (Button) findViewById(R.id.date_time_picker);
-
-        radio_breakfast = (RadioButton)findViewById(R.id.radio_breakfast);
-        radio_lunch = (RadioButton)findViewById(R.id.radio_lunch);
-        radio_dinner = (RadioButton)findViewById(R.id.radio_dinner);
-        radio_snack = (RadioButton)findViewById(R.id.radio_snack);
-        radio_beverage = (RadioButton)findViewById(R.id.radio_beverage);
-
+        radio_breakfast = (RadioButton) findViewById(R.id.radio_breakfast);
+        radio_lunch = (RadioButton) findViewById(R.id.radio_lunch);
+        radio_dinner = (RadioButton) findViewById(R.id.radio_dinner);
+        radio_snack = (RadioButton) findViewById(R.id.radio_snack);
+        radio_beverage = (RadioButton) findViewById(R.id.radio_beverage);
         Calendar cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
@@ -72,16 +69,16 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedMealName = AddMealActivity.this.getSelectedMeal();
-
-                ArrayList<MealTime> selectedMealTimes = AddMealActivity.this.getSelectedMealTimes();
-
                 EatFood eatFoodEvent = new EatFood();
-                eatFoodEvent.setFood(new Food(selectedMealName, 0 ,0,0));
-                foodInputArray.add(new MealTime(getSelectedMeal()));
-                foodInputArray.add(new MealTime(onDateSet(datePicker, i, i1, i2)));
-                eatFoodEvent.setMealTime(selectedMealTimes.get(0));
+                String selectedMealName = AddMealActivity.this.getSelectedMeal();
+                eatFoodEvent.setFood(new Food(selectedMealName, 0, 0, 0));
+                Date selectedDate = AddMealActivity.this.getSelectedDate();
+                eatFoodEvent.setMealTime(AddMealActivity.this.getSelectedMealTime(selectedDate));
                 eatFoodEvent.setUser(new User("Jia", "Female", 56));
+                AddMealActivity.this.alltheEatenFood.add(eatFoodEvent);
+
+                Intent myIntent = new Intent(AddMealActivity.this, MainActivity.class);
+                startActivity(myIntent);
             }
         });
     }
@@ -102,24 +99,33 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         return true;
     }
 
-    private ArrayList<MealTime> getSelectedMealTimes() {
+    private Date getSelectedDate() {
+        return new Date(this.datePicker.getDatePicker().getYear(),
+                this.datePicker.getDatePicker().getMonth(),
+                this.datePicker.getDatePicker().getDayOfMonth());
+    }
+
+    private MealTime getSelectedMealTime(Date selectedDate) {
+        String primary = "";
+        String secondary = "";
 
         if (radio_breakfast.isChecked()) {
-            foodInputArray.add(new MealTime("Breakfast"));
+            primary = "Breakfast";
         }
         if (radio_lunch.isChecked()) {
-            foodInputArray.add(new MealTime("Lunch"));
+            primary = "Lunch";
         }
         if (radio_dinner.isChecked()) {
-            foodInputArray.add(new MealTime("Dinner"));
+            primary = "Dinner";
         }
+
         if (radio_snack.isChecked()) {
-            foodInputArray.add(new MealTime("Snack"));
+            primary = "Snack";
         }
         if (radio_beverage.isChecked()) {
-            foodInputArray.add(new MealTime("Beverage"));
+            secondary = "Beverage";
         }
-        return foodInputArray;
+        return new MealTime(primary, secondary, selectedDate);
     }
 
     private String getSelectedMeal() {
@@ -133,31 +139,27 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
-}
+
+    public ArrayList<EatFood> getAlltheEatenFood() {
+        return alltheEatenFood;
+    }
+
+    //public void onSaveButtonClick(View view){
+//        String stringToSave = foodNameEditor.getText().toString();
+//        save.setVisibility(View.INVISIBLE);
+//        foodNameEditor.setVisibility(View.INVISIBLE);
+//        savedText.setText(stringToSave);
+//        SavedTextPreferences.setStoredText(this, stringToSave);
+//    }
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.add_meal) {
+//        if (item.() == R.id.add_meal) {
 //            Intent intent = new Intent(this, AddMealActivity.class);
 //            startActivity(intent);
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+}
 
-//    private Date getSelectedDate() {
-//        return new Date(this.datePicker.getDatePicker().getYear(),
-//                this.datePicker.getDatePicker().getMonth(),
-//                this.datePicker.getDatePicker().getDayOfMonth());
-//    }
-
-//    public boolean ifNoInput(EditText editText){
-//        if(foodNameEditor == null){
-//            editText.setError(editText.getHint()+"required field");
-//            return false;
-//        } else {
-//            editText.setError(null);
-//            return true;
-//        }
-//    }

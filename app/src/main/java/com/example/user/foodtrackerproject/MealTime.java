@@ -4,39 +4,46 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.R.attr.name;
+
 /**
  * Created by user on 07/07/2017.
  */
 
 public class MealTime {
 
-    private String name;
-    DateFormat dateFormat = new SimpleDateFormat("EE dd/MMM/yyyy HH:mm");
-    Date now = new Date();
+    private String primary;
+    private String secondary;
+    private Date date;
 
-    public MealTime(String name){
-        this.name = name;
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    public void showTime(){
-        System.out.println(dateFormat.format(now));
+    public MealTime(String primary, String secondary, Date mealDate){
+        this.primary = primary;
+        this.secondary = secondary;
+        this.date = mealDate;
 
     }
+
+    public String getPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(String primary) {
+        this.primary = primary;
+    }
+
+    public String getSecondary() {
+        return secondary;
+    }
+
+    public void setSecondary(String secondary) {
+        this.secondary = secondary;
+    }
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date mealDate) {
+        this.date = mealDate;
+    }
+
 }
