@@ -1,6 +1,7 @@
 package com.example.user.foodtrackerproject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 
 import static android.R.attr.name;
 
@@ -36,5 +37,9 @@ public class EatFood implements Serializable{
 
     public void setFood(Food food) {
         this.food = food;
+    }
+
+    public String toString(){
+      return "User: " + this.user.getName() + " | Weight: " + user.getWeight() + "kg" + "\nFood : " + food.getName() + "\nMeal Time: "  +  mealTime.getPrimary() + " "  + mealTime.getSecondary() + "\n" + "Date : " + mealTime.getDate();
     }
 }

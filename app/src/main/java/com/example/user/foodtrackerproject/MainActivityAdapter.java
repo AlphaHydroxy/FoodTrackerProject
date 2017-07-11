@@ -27,15 +27,7 @@ public class MainActivityAdapter extends ArrayAdapter<EatFood>{
 
             TextView food = (TextView)listItemView.findViewById(R.id.new_food);
 
-
-//            String foodString = "";
-//            for(EatFood eatFood : )
-
-
-
-
-
-            food.setText(addFood.getFood().getName().toString());
+            food.setText(addFood.toString());
             listItemView.setTag(addFood.getFood());
             return listItemView;
 

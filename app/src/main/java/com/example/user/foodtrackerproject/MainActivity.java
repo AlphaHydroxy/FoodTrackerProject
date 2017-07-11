@@ -57,22 +57,9 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("AllTheEatenFood", gson.toJson(allTheEatenFood));
         editor.apply();
 
-//        Toast.makeText(this, "Meal Added", Toast.LENGTH_LONG).show();
-
         MainActivityAdapter mainActivityAdapter = new MainActivityAdapter(this, allTheEatenFood);
         ListView listview = (ListView)findViewById(R.id.launcherlist);
         listview.setAdapter(mainActivityAdapter);
-
-
-
-
-
-        String foodString = "";
-
-        for (EatFood eatFood : allTheEatenFood){
-//            foodString += name.getName + " " ;
-        }
-
     }
 
     @Override

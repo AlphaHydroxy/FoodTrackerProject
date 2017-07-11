@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,8 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import static android.R.id.list;
 
 public class AddMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener, Serializable {
 
@@ -39,7 +35,6 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EatFood eatFood = new EatFood();
         alltheEatenFood = new ArrayList<EatFood>();
         setContentView(R.layout.activity_add_meal);
         save = (Button) findViewById(R.id.save_btn);
@@ -80,10 +75,14 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
                 eatFoodEvent.setUser(new User("Jia", "Female", 56));
                 AddMealActivity.this.alltheEatenFood.add(eatFoodEvent);
 
-                Intent intent = new Intent(AddMealActivity.this, MainActivity.class);
-                intent.putExtra("food", eatFoodEvent);
-                startActivity(intent);
-                Toast.makeText(AddMealActivity.this, "Meal Added", Toast.LENGTH_LONG).show();
+                if(foodNameEditor.toString().length() == 0){
+                    Toast.makeText(AddMealActivity.this, "Complete all fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(AddMealActivity.this, MainActivity.class);
+                    intent.putExtra("food", eatFoodEvent);
+                    startActivity(intent);
+                    Toast.makeText(AddMealActivity.this, "Meal Added", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -93,7 +92,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         yearFinal = i;
         monthFinal = i1 + 1;
         dayFinal = i2;
-        show_date.setText(dayFinal + "/" + monthFinal + "/" + yearFinal);
+        show_date.setText(dayFinal + "-" + monthFinal + "-" + yearFinal);
         show_date.toString();
     }
 
@@ -146,25 +145,21 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
-    public ArrayList<EatFood> getList() {
-        return new ArrayList<EatFood>(list);
-    }
 
-    //public void onSaveButtonClick(View view){
+//    public void onSaveButtonClick(View view){
 //        String stringToSave = foodNameEditor.getText().toString();
 //        save.setVisibility(View.INVISIBLE);
 //        foodNameEditor.setVisibility(View.INVISIBLE);
 //        savedText.setText(stringToSave);
 //        SavedTextPreferences.setStoredText(this, stringToSave);
 //    }
-
+//
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.() == R.id.add_meal) {
+//        if (foodNameEditor == R.id.add_meal) {
 //            Intent intent = new Intent(this, AddMealActivity.class);
 //            startActivity(intent);
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
 }
-

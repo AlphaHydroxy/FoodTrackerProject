@@ -17,6 +17,7 @@ public class MealTime implements Serializable {
     private String secondary;
     private Date date;
 
+
     public MealTime(String primary, String secondary, Date mealDate){
         this.primary = primary;
         this.secondary = secondary;
@@ -39,8 +40,9 @@ public class MealTime implements Serializable {
     public void setSecondary(String secondary) {
         this.secondary = secondary;
     }
-    public Date getDate() {
-        return date;
+    public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("EE DD-MMM-YY");
+        return dateFormat.format(date);
     }
 
     public void setDate(Date mealDate) {
@@ -48,3 +50,4 @@ public class MealTime implements Serializable {
     }
 
 }
+//.toString()
