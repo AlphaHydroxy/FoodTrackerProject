@@ -5,5 +5,5 @@
         android:id="@+id/add_meal"
         android:orderInCategory="100"
         android:title="Add meal"
-        app:showAsAction="never"/>
+        />
 </menu>

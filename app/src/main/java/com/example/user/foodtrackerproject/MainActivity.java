@@ -23,6 +23,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static android.R.attr.name;
+
+
 public class MainActivity extends AppCompatActivity {
     ArrayList<EatFood> allTheEatenFood;
 
@@ -53,9 +56,22 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("AllTheEatenFood", gson.toJson(allTheEatenFood));
         editor.apply();
+
+//        Toast.makeText(this, "Meal Added", Toast.LENGTH_LONG).show();
+
         MainActivityAdapter mainActivityAdapter = new MainActivityAdapter(this, allTheEatenFood);
         ListView listview = (ListView)findViewById(R.id.launcherlist);
         listview.setAdapter(mainActivityAdapter);
+
+
+
+
+
+        String foodString = "";
+
+        for (EatFood eatFood : allTheEatenFood){
+//            foodString += name.getName + " " ;
+        }
 
     }
 

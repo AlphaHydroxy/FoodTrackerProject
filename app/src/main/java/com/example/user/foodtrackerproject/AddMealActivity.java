@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -82,6 +83,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
                 Intent intent = new Intent(AddMealActivity.this, MainActivity.class);
                 intent.putExtra("food", eatFoodEvent);
                 startActivity(intent);
+                Toast.makeText(AddMealActivity.this, "Meal Added", Toast.LENGTH_LONG).show();
             }
         });
     }
