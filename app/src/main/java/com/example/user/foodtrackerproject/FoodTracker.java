@@ -1,10 +1,12 @@
 package com.example.user.foodtrackerproject;
 
+import java.io.Serializable;
+
 /**
  * Created by user on 07/07/2017.
  */
 
-public class FoodTracker {
+public class FoodTracker implements Serializable {
 
     EatFood eatFood;
 

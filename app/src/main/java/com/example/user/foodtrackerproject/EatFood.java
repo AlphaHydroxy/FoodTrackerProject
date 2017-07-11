@@ -1,12 +1,14 @@
 package com.example.user.foodtrackerproject;
 
+import java.io.Serializable;
+
 import static android.R.attr.name;
 
 /**
  * Created by user on 07/07/2017.
  */
 
-public class EatFood {
+public class EatFood implements Serializable{
 
     User user;
     MealTime mealTime;

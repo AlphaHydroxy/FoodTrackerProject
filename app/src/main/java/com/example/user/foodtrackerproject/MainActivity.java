@@ -1,7 +1,9 @@
 package com.example.user.foodtrackerproject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,21 +17,46 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-    ListView show;
-    TextView show_food_name, show_food_date, show_food_type, show_beverage;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    ArrayList<EatFood> allTheEatenFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        show = (ListView)findViewById(R.id.launcherlist);
-        show_food_name = (TextView)findViewById(R.id.show_food_name);
-        show_food_date = (TextView)findViewById(R.id.show_food_date);
-        show_food_type = (TextView)findViewById(R.id.show_food_type);
-        show_beverage = (TextView)findViewById(R.id.show_beverage);
+        SharedPreferences sharedPref = getSharedPreferences("ADDEDFOOD", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor delete = sharedPref.edit();
+//        delete.clear();
+//        delete.apply();
+
+        String eatenFood = sharedPref.getString("AllTheEatenFood", new ArrayList<EatFood>().toString());
+        Log.d("Food String", eatenFood);
+
+        Gson gson = new Gson();
+        TypeToken<ArrayList<EatFood>> foodArrayList = new TypeToken<ArrayList<EatFood>>(){};
+        ArrayList<EatFood> allTheEatenFood = gson.fromJson(eatenFood, foodArrayList.getType());
+        Log.d("myFood", allTheEatenFood.toString());
+        if(getIntent().getExtras() != null) {
+            EatFood newFood = (EatFood) getIntent().getSerializableExtra("food");
+
+            allTheEatenFood.add(newFood);
+            Log.d("myFood", allTheEatenFood.toString());
+        }
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("AllTheEatenFood", gson.toJson(allTheEatenFood));
+        editor.apply();
+        MainActivityAdapter mainActivityAdapter = new MainActivityAdapter(this, allTheEatenFood);
+        ListView listview = (ListView)findViewById(R.id.launcherlist);
+        listview.setAdapter(mainActivityAdapter);
+
     }
 
     @Override

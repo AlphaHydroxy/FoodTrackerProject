@@ -1,5 +1,6 @@
 package com.example.user.foodtrackerproject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +11,7 @@ import static android.R.attr.name;
  * Created by user on 07/07/2017.
  */
 
-public class MealTime {
+public class MealTime implements Serializable {
 
     private String primary;
     private String secondary;

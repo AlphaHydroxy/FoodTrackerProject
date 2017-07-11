@@ -16,11 +16,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
+import static android.R.id.list;
+
+public class AddMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener, Serializable {
 
     EditText foodNameEditor;
     ArrayList<EatFood> alltheEatenFood;
@@ -31,12 +34,11 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
     int day, month, year;
     int dayFinal, monthFinal, yearFinal;
     Button save;
-    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EatFood eatFood = new EatFood();
+//        EatFood eatFood = new EatFood();
         alltheEatenFood = new ArrayList<EatFood>();
         setContentView(R.layout.activity_add_meal);
         save = (Button) findViewById(R.id.save_btn);
@@ -77,8 +79,9 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
                 eatFoodEvent.setUser(new User("Jia", "Female", 56));
                 AddMealActivity.this.alltheEatenFood.add(eatFoodEvent);
 
-                Intent myIntent = new Intent(AddMealActivity.this, MainActivity.class);
-                startActivity(myIntent);
+                Intent intent = new Intent(AddMealActivity.this, MainActivity.class);
+                intent.putExtra("food", eatFoodEvent);
+                startActivity(intent);
             }
         });
     }
@@ -141,8 +144,8 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
-    public ArrayList<EatFood> getAlltheEatenFood() {
-        return alltheEatenFood;
+    public ArrayList<EatFood> getList() {
+        return new ArrayList<EatFood>(list);
     }
 
     //public void onSaveButtonClick(View view){
