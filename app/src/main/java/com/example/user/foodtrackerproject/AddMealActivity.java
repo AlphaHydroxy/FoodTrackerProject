@@ -75,7 +75,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
                 eatFoodEvent.setUser(new User("Jia", "Female", 56));
                 AddMealActivity.this.alltheEatenFood.add(eatFoodEvent);
 
-                if(foodNameEditor.toString().length() == 0){
+                if(foodNameEditor.length() == 0 && getSelectedDate() == null ){
                     Toast.makeText(AddMealActivity.this, "Complete all fields", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(AddMealActivity.this, MainActivity.class);
