@@ -1,30 +1,20 @@
 package com.example.user.foodtrackerproject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import static android.R.attr.name;
-
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<EatFood> allTheEatenFood;
@@ -73,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.add_meal) {
             Intent intent = new Intent(this, AddMealActivity.class);
+            startActivity(intent);
+        }
+        if (item.getItemId() == R.id.about) {
+            Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

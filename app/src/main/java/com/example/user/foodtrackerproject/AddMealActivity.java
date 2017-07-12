@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -75,7 +76,7 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
                 eatFoodEvent.setUser(new User("Jia", "Female", 56));
                 AddMealActivity.this.alltheEatenFood.add(eatFoodEvent);
 
-                if(foodNameEditor.length() == 0 && getSelectedDate() == null ){
+                if(foodNameEditor.length() == 0){
                     Toast.makeText(AddMealActivity.this, "Complete all fields", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(AddMealActivity.this, MainActivity.class);
@@ -101,6 +102,18 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_meal) {
+            Intent intent = new Intent(this, AddMealActivity.class);
+            startActivity(intent);
+        }
+        if (item.getItemId() == R.id.about) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private Date getSelectedDate() {
@@ -138,28 +151,9 @@ public class AddMealActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
-
-
-//    public void onSaveButtonClick(View view){
-//        String stringToSave = foodNameEditor.getText().toString();
-//        save.setVisibility(View.INVISIBLE);
-//        foodNameEditor.setVisibility(View.INVISIBLE);
-//        savedText.setText(stringToSave);
-//        SavedTextPreferences.setStoredText(this, stringToSave);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (foodNameEditor == R.id.add_meal) {
-//            Intent intent = new Intent(this, AddMealActivity.class);
-//            startActivity(intent);
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 }
